@@ -4,6 +4,7 @@ const createError = require("./controllers/errorController");
 const AppError = require("./utils/appError")
 
 const app = express();
+app.use(cors());
 app.use(express.json());  // Middleware
 
 app.use('/todos', todoRouter);
