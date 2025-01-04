@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());  // Middleware
 
-app.use('/todos', todoRouter);
+app.use('/api/todos', todoRouter);
 
 app.all("*", (req, res, next) => {
     next(AppError(`Cant find url ${req.originalUrl}`, 404));
