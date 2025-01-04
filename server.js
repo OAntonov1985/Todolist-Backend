@@ -20,7 +20,8 @@ const DB_STRING = process.env.DATABASE_URL_STRING;
 mongoose.connect(DB_STRING).then(con => {
     console.log(`Database connected: ${con.connection.host}`);
 }).catch(err => {
-    Promise.reject(new Error('Test unhandled rejection'));
+    console.error('Database connection failed: ', err);
+    process.exit(1); // Завершити процес у випадку помилки
 });
 
 process.on('unhandledRejection', err => {
