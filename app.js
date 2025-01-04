@@ -1,7 +1,8 @@
 const express = require('express');
 const todoRouter = require("./routes/todoRouter");
 const createError = require("./controllers/errorController");
-const AppError = require("./utils/appError")
+const AppError = require("./utils/appError");
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
