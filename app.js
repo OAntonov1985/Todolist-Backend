@@ -5,8 +5,19 @@ const AppError = require("./utils/appError");
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
-app.use(express.json());  // Middleware
+const allowedOrigins = ['https://todolist-backend-plt.vercel.app', 'http://localhost:3000'];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
+
+app.use(express.json());
 
 app.use('/api/todos', todoRouter);
 

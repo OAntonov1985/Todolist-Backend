@@ -5,6 +5,8 @@ const createAPIFeatures = require("../utils/APIFeatures")
 
 
 const GetAllTodos = catchAsync(async (req, res, next) => {
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
     const features = createAPIFeatures(Todos.find(), req.query)
         .filter()
         .sort()
@@ -13,16 +15,17 @@ const GetAllTodos = catchAsync(async (req, res, next) => {
 
 
     const todos = await features.getQuery();
+    const totalTodos = await Todos.countDocuments();
+    const totalPages = Math.ceil(totalTodos / limit);
     res
         .status(200)
         .json({
             status: "success",
             datalength: todos.length,
+            totalPages: totalPages,
             data: todos
         });
 });
-
-
 
 
 const CreateTodo = catchAsync(async (req, res, next) => {
@@ -39,6 +42,7 @@ const CreateTodo = catchAsync(async (req, res, next) => {
     });
 
 });
+
 
 const GetOneTodo = catchAsync(async (req, res, next) => {
     const todoId = req.params.id;
@@ -72,6 +76,7 @@ const UpdateTodo = catchAsync(async (req, res, next) => {
     });
 });
 
+
 const DeleteTodo = catchAsync(async (req, res, next) => {
     const todoId = req.params.id;
     const result = await Todos.findByIdAndDelete(todoId);
@@ -83,7 +88,6 @@ const DeleteTodo = catchAsync(async (req, res, next) => {
         sttus: "success"
     });
 });
-
 
 
 module.exports = { GetAllTodos, GetOneTodo, CreateTodo, UpdateTodo, DeleteTodo }

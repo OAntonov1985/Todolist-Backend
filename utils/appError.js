@@ -8,6 +8,6 @@ function AppError(message, statusCode) {
     Error.captureStackTrace(error, AppError);
 
     return error;
-}
+};
 
 module.exports = AppError;
